@@ -1,0 +1,87 @@
+namespace Advent_of_Code
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            YearChanger.SelectedIndex = 0;
+            fillPuzzleSelector();
+        }
+
+        public void fillPuzzleSelector()
+        {
+            string year = YearChanger.SelectedItem.ToString();
+            PuzzleSelector.Items.Clear();
+            if (year == "2022")
+            {
+                PuzzleSelector.Items.Add("Dag 1");
+                PuzzleSelector.Items.Add("Dag 2");
+                PuzzleSelector.Items.Add("Dag 3");
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (PuzzleSelector.SelectedIndex == -1)
+                MessageBox.Show("Kies een puzzel om op te lossen.");
+            else
+                berekenDag();
+        }
+
+        public void berekenDag()
+        {
+            //Hier code toevoegen om te wisselen tussen jaren wanneer nodig
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            int bindex = path.IndexOf("bin");
+            path = path.Substring(0, bindex);
+            path += @"input\";
+            path += YearChanger.GetItemText(YearChanger.SelectedItem) + @"\";
+            string output = "";
+            switch (PuzzleSelector.GetItemText(PuzzleSelector.SelectedItem))
+            {
+                case "Dag 1":
+                    path += "01.in";
+                    Dag dag1 = new Dag01(path);
+                    output += dag1.result1;
+                    output += System.Environment.NewLine;
+                    output += dag1.result2;
+                    break;
+                case "Dag 2":
+                    path += "02.in";
+                    Dag dag2 = new Dag02(path);
+                    output += dag2.result1;
+                    output += System.Environment.NewLine;
+                    output += dag2.result2;
+                    break;
+                case "Dag 3":
+                    path += "03.in";
+                    Dag dag3 = new Dag03(path);
+                    output += dag3.result1;
+                    output += System.Environment.NewLine;
+                    output += dag3.result2;
+                    break;
+
+            }
+            outputBox.Text = output;
+            string[] file = path.Split('\\');
+            PathField.Text = file[file.Length - 1];
+            
+
+        }
+    }
+}
