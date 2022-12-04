@@ -79,8 +79,7 @@ namespace Advent_of_Code
                 else
                     n2++;
             }
-            distinctItems = comp1.Concat(comp2).ToList();
-            distinctItems = distinctItems.Distinct().ToList();
+            distinctItems = comp1.Concat(comp2).Distinct().ToList();
         }
 
         public List<int> comp1= new List<int>();
