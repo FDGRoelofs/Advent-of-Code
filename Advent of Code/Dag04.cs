@@ -41,16 +41,7 @@ namespace Advent_of_Code
 
         public override void Puzzel2()
         {
-            /*if (e1start <= e2start && e2start >= e1end)
-                puzzel2++;
-            else if (e2start <= e1start && e1start >= e2end)
-                puzzel2++;
-            else if (e1start <= e2end && e2end >= e1end)
-                puzzel2++;
-            else if (e2start <= e1end && e1end >= e2end)
-                puzzel2++;
-            */
-
+            
         }
 
         public int overlap(int a1, int a2, int b1, int b2)
