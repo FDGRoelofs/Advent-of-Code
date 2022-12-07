@@ -34,6 +34,8 @@ namespace Advent_of_Code
                 PuzzleSelector.Items.Add("Dag 3");
                 PuzzleSelector.Items.Add("Dag 4");
                 PuzzleSelector.Items.Add("Dag 5");
+                PuzzleSelector.Items.Add("Dag 6");
+                PuzzleSelector.Items.Add("Dag 7");
             }
         }
 
@@ -90,6 +92,20 @@ namespace Advent_of_Code
                     output += dag5.result1;
                     output += System.Environment.NewLine;
                     output += dag5.result2;
+                    break;
+                case "Dag 6":
+                    path += "06.in";
+                    Dag dag6 = new Dag06(path);
+                    output += dag6.result1;
+                    output += System.Environment.NewLine;
+                    output += dag6.result2;
+                    break;
+                case "Dag 7":
+                    path += "07.in";
+                    Dag dag7 = new Dag07(path);
+                    output += dag7.result1;
+                    output += System.Environment.NewLine;
+                    output += dag7.result2;
                     break;
 
             }
