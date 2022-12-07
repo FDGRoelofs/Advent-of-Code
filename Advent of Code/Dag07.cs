@@ -60,10 +60,8 @@ namespace Advent_of_Code
             if (currentSize > target)
                 resultlist.Add(currentSize);
             foreach (KeyValuePair<string, dirObject> child in folder.getChildren())
-            {
                 if (child.Value is folder)
                     findCandidates((folder)child.Value, resultlist, target);
-            }
         }
 
 
@@ -92,8 +90,6 @@ namespace Advent_of_Code
             {
                 if (currentDir.parent != null)
                     currentDir = currentDir.parent;
-                else
-                    throw new ArgumentNullException();
             }
             else
                 currentDir = (folder)currentDir.getChildren()[newDir];
@@ -108,14 +104,7 @@ namespace Advent_of_Code
                 string[] addObj = lines[index].Split(' ');
                 int size = 0;
                 if (int.TryParse(addObj[0], out size))
-                {
                     currentDir.giveChild(new file(addObj[0], addObj[1], currentDir));
-                    if (currentDir.getSize() == 0)
-                    {
-                        bool debug = true;
-                    }
-                }
-                    
                 else
                     currentDir.giveChild(new folder(addObj[1], currentDir));
                 index++;
@@ -149,9 +138,7 @@ namespace Advent_of_Code
         {
             size = s;
             if (parent != null)
-            {
                 parent.setSize();
-            }
         }
 
         public virtual void setSize()
@@ -183,10 +170,7 @@ namespace Advent_of_Code
             children.Add(child.name,child);
             setSize();
             if(parent!= null)
-            {
                 parent.setSize();
-            }
-            
         }
 
         public Dictionary<string,dirObject> getChildren()
@@ -197,9 +181,7 @@ namespace Advent_of_Code
         {
             int s = 0;
             foreach(dirObject x in children.Values)
-            {
                 s += x.getSize();
-            }
             setSize(s);
         }
     }
