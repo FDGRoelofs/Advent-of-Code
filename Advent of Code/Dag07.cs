@@ -21,10 +21,7 @@ namespace Advent_of_Code
             root = new folder("root", null);
             currentDir = root;
             for (; index < lines.Length;)
-            {
                 parseInstruction(lines[index]);
-            }
-            int test = 0;
             List<int> selectedFolders = new List<int>();
             getAllSizes(root, selectedFolders);
             this.result1 = selectedFolders.Sum().ToString();
@@ -37,10 +34,8 @@ namespace Advent_of_Code
             if (currentSize < 100000)
                 resultList.Add(currentSize);
             foreach(KeyValuePair<string,dirObject> child in startfolder.getChildren())
-            {
                 if (child.Value is folder)
                     getAllSizes((folder)child.Value, resultList);
-            }
         }
         
         public override void Puzzel2()
@@ -77,8 +72,6 @@ namespace Advent_of_Code
                     case "ls":
                         list();
                         break;
-
-
                 }
         }
 
