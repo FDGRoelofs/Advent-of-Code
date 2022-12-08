@@ -64,17 +64,20 @@ namespace Advent_of_Code
         
         public override void Puzzel2()
         {
+            //bereken voor elke boom mbh howScenic zijn score
             Parallel.For(0, scenic.GetLength(0), x =>
             {
                 for (int y = 0; y < scenic.GetLength(1); y++)
                     howScenic(x, y);
             });
+            //vind de hoogste score
             int highest = 0;
             for (int x = 0; x < scenic.GetLength(0); x++)
                 for (int y = 0; y < scenic.GetLength(1); y++)
                     if (scenic[x,y] > highest)
                         highest = scenic[x,y];
             this.result2 = highest.ToString();
+            //stop alle scores in een string om weergeven te worden.
             debugstring = "";
             for (int y = 0; y < scenic.GetLength(1); y++)
             {
@@ -133,10 +136,12 @@ namespace Advent_of_Code
         public void howScenic(int x, int y)
         {
             int scenicscore = 1;
+            //bereken voor elke richting hoeveel bomen er te zien zijn en vermenigvuldig de uitkomst met de huidige score
             scenicscore *= treeView(x, y, 0, 1);
             scenicscore *= treeView(x, y, 1, 0);
             scenicscore *= treeView(x, y, 0, -1);
             scenicscore *= treeView(x, y, -1, 0);
+            //plaats de score in het array met scores per boom
             scenic[x,y] = scenicscore;
         }
 
@@ -173,6 +178,8 @@ namespace Advent_of_Code
         {
             int hometree = trees[y, x];
             int count = 0;
+            //deze ifjes gebruik ik om met twee for loops de 4 richtingen te kunnen uitvoeren
+            //in de for loopjes word elke stap een boom verder gekeken, als de boom even hoog of hoger is dan de boom vanaf waar gekeken word, word niet meer verder gekeken.
             if (xInc != 0)
                 for (int nextX = x + xInc; nextX < trees.GetLength(0) && nextX >= 0; nextX += xInc)
                 {
