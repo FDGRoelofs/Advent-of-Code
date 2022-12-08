@@ -176,10 +176,10 @@ namespace Advent_of_Code
 
         public int treeView(int x, int y, int xInc, int yInc)
         {
-            int hometree = trees[y, x];
+            int hometree = trees[x, y];
             int count = 0;
             //deze ifjes gebruik ik om met twee for loops de 4 richtingen te kunnen uitvoeren
-            //in de for loopjes word elke stap een boom verder gekeken, als de boom even hoog of hoger is dan de boom vanaf waar gekeken word, word niet meer verder gekeken.
+            //in de for loopjes word elke stap een boom verder gekeken, als de boom even hoog of hoger is dan de boom vanaf waar gekeken word, stopt de loop.
             if (xInc != 0)
                 for (int nextX = x + xInc; nextX < trees.GetLength(0) && nextX >= 0; nextX += xInc)
                 {
