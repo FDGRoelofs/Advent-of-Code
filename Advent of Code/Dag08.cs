@@ -176,30 +176,21 @@ namespace Advent_of_Code
             if (xInc != 0)
                 for (int nextX = x + xInc; nextX < trees.GetLength(0) && nextX >= 0; nextX += xInc)
                 {
+                    count++;
                     int current = trees[nextX, y];
-                    if (current < hometree)
-                        count++;
-                    else if (current >= hometree)
-                    {
-                        count++;
+                    if (current >= hometree)
                         break;
-                    }
                 }
             else if (yInc != 0)
                 for (int nextY = y + yInc; nextY < trees.GetLength(1) && nextY >= 0; nextY += yInc)
                 {
+                    count++;
                     int current = trees[x, nextY];
-                    if (current < hometree)
-                        count++;
-                    else if (current >= hometree)
-                    {
-                        count++;
+                    if (current >= hometree)
                         break;
-                    }
                 }
-            if (count == 0)
-                return 1;
-            return count;
+            return Math.Max(1, count);
+            
         }
     }
 }
