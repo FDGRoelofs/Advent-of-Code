@@ -109,13 +109,16 @@ namespace Advent_of_Code
                     output += dag7.result2;
                     break;
                 case "Dag 8":
-                    path += "08.in";
+                    path += "08groter.in";
                     Dag08 dag8 = new Dag08(path);
                     output += dag8.result1;
                     output += System.Environment.NewLine;
                     output+= dag8.result2;
                     output += System.Environment.NewLine;
-                    output += dag8.debugstring;
+                    output += dag8.debugstring[1];
+
+                    output += System.Environment.NewLine;
+                    output += dag8.debugstring[2];
                     break;
 
             }
