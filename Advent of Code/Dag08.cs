@@ -196,6 +196,7 @@ namespace Advent_of_Code
                     if (current >= hometree)
                         break;
                 }
+            //aan de rand word in 1 richting altijd 0 bomen gezien, om die reden zorg ik dat ik altijd minstens een 1 return.
             return Math.Max(1, count);
             
         }
