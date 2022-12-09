@@ -17,11 +17,10 @@ namespace Advent_of_Code
         private Vector2 head;
         private Vector2 tail;
         private Queue<char> movements;
-        Dictionary<Vector2,int> tailHis = new Dictionary<Vector2,int>();
-        Dictionary<Vector2, int> longtailHis = new Dictionary<Vector2, int>();
         public override void Puzzel1()
         {
             parseInstructions();
+            Dictionary<Vector2, int> tailHis = new Dictionary<Vector2, int>();
             Queue<char> p1moves = new Queue<char>(movements);
             tailHis.Add(tail, 1);
             while (p1moves.Count > 0)
@@ -40,6 +39,7 @@ namespace Advent_of_Code
         public override void Puzzel2()
         {
             Queue<char> p2moves = new Queue<char>(movements);
+            Dictionary<Vector2, int> longtailHis = new Dictionary<Vector2, int>();
             head = new Vector2(0,0);
             Vector2[] longtail = new Vector2[9];
             while(p2moves.Count > 0)
@@ -71,9 +71,7 @@ namespace Advent_of_Code
                 string[] current = lines[i].Split(' ');
                 int count = int.Parse(current[1]);
                 for(int c = 0; c < count; c++)
-                {
                     movements.Enqueue(current[0][0]);
-                }
             }
         }
 
@@ -100,20 +98,17 @@ namespace Advent_of_Code
         public Vector2 tailMove(Vector2 leader, Vector2 follower)
         {
             Vector2 distance = leader - follower;
-            if(distance.LengthSquared() > 2)
+            if(distance.Length() > 2)
             {
-                Vector2 step = Vector2.Normalize(distance);
-                if (step.X < 0)
-                    step.X = -1;
-                else if (step.X > 0)
-                    step.X = 1;
-                if(step.Y < 0)
-                    step.Y = -1;
-                else if(step.Y > 0)
-                    step.Y = 1;
-                //step.X = (float)Math.Round(step.X,0,MidpointRounding.AwayFromZero);
-                //step.Y = (float)Math.Round(step.Y, 0, MidpointRounding.AwayFromZero);
-                return follower + step;
+                if (distance.X < 0)
+                    distance.X = -1;
+                else if (distance.X > 0)
+                    distance.X = 1;
+                if(distance.Y < 0)
+                    distance.Y = -1;
+                else if(distance.Y > 0)
+                    distance.Y = 1;
+                return follower + distance;
             }
             return follower;
         }
