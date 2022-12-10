@@ -98,7 +98,7 @@ namespace Advent_of_Code
         public Vector2 tailMove(Vector2 leader, Vector2 follower)
         {
             Vector2 distance = leader - follower;
-            if(distance.Length() > 2)
+            if(distance.LengthSquared() > 2)
             {
                 if (distance.X < 0)
                     distance.X = -1;
@@ -112,6 +112,5 @@ namespace Advent_of_Code
             }
             return follower;
         }
-
     }
 }
