@@ -57,14 +57,9 @@ namespace Advent_of_Code
             //CRT tekenpunt schuift elke stap 1 punt, van pos 0 t/m 239(of 1 tm 240)
             //Als tekenpunt Minder dan 2 verschilt van register x, teken een #, anders een .
 
-            //misschien instructies in queue laden. noop = 0, addx = 0,x
-
-            //misschien op te lossen met alleen een aanpassing aan addCycle? (en meer indexen doorlopen dan in deel 1)
-
             reg = 1;
             cyc = 0;
             List<int> mod = new List<int>();
-            //bool[] screen = new bool[240];
             string answer = "";
             for (int i = 0; i < lines.Length; i++)
             {
@@ -81,7 +76,7 @@ namespace Advent_of_Code
             {
                 int dist = Math.Abs(reg - (i%40));
                 if (dist < 2)
-                    answer += '#';  //screen[i] = true;
+                    answer += '#';
                 else
                     answer += '.';
                 reg += mod[i];
