@@ -57,6 +57,18 @@ namespace Advent_of_Code
             }
         }
 
+        public void Writeresult1(string s)
+        {
+            this.result1 += s;
+            this.result1 += Environment.NewLine;
+        }
+
+        public void Writeresult2(string s)
+        {
+            this.result2 += s;
+            this.result2 += Environment.NewLine;
+        }
+
         public abstract void Puzzel1();
         public abstract void Puzzel2();
     }

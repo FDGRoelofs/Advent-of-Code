@@ -49,6 +49,8 @@ namespace Advent_of_Code
         List<(int X, int Y)> p2starters = new List<(int X, int Y)>();
         public override void Puzzel1()
         {
+            Stopwatch st = new Stopwatch();
+            st.Start();
             List<(int X, int Y)> tocheck = new List<(int X, int Y)>();
             List<(int X, int Y)> alreadychecked = new List<(int X, int Y)>();
             int[,] distance = new int[rowcount, columncount];
@@ -67,7 +69,9 @@ namespace Advent_of_Code
                 tocheck = nextcheck.Distinct().ToList();
                 steps++;
             }
-            this.result1 = distance[end.X,end.Y].ToString();
+            st.Stop();
+            this.result1 = st.ElapsedMilliseconds.ToString();
+            //this.result1 = distance[end.X,end.Y].ToString();
         }
         public void addNeighbours((int X, int Y) pos, List<(int X, int Y)> tocheck, List<(int X, int Y)> alreadychecked)
         {
