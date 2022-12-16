@@ -40,9 +40,9 @@ namespace Advent_of_Code
                 int y = Math.Abs(edges[i].Y - centers[i].Y);
                 distance[i] = x + y;
             }
-            int checkline = 10;//2000000;//aanpassen voor test data
+            int checkline = 2000000;//aanpassen voor test data
             List<(int start, int end)> ranges = new List<(int start, int end)>();
-            //overlap met de checklijn
+            //bereken per sensor de range van overlap met de checklijn
             for (int i = 0; i < lines.Length; i++) 
             {
                 int SensorY = centers[i].Y;
@@ -73,7 +73,7 @@ namespace Advent_of_Code
                 }
             }
             ranges.Sort();
-            //overlap op checklijn dedupliceren (verwijderen van overlap op overlap)
+            //combineer de ranges die met elkaar overlappen
             List<(int start, int end)> finalranges = removeOverlap(ranges);
             int answer = 0;
             foreach((int start, int end) in finalranges)
@@ -100,7 +100,15 @@ namespace Advent_of_Code
                 return ranges;
             for (int i = 0; i < ranges.Count - 1; i++)
             {
-                if (ranges[i].end <= ranges[i + 1].start)
+                if (ranges[i].start <= ranges[i + 1].start && ranges[i].end >= ranges[i + 1].end)
+                {
+                    int newstart = Math.Min(ranges[i].start, ranges[i + 1].start);
+                    int newend = Math.Max(ranges[i].end, ranges[i + 1].end);
+                    finalranges.Add((newstart, newend));
+                    i++;
+                    done = false;
+                }
+                else if (ranges[i].end <= ranges[i + 1].start)
                     finalranges.Add(ranges[i]);
                 else
                 {
