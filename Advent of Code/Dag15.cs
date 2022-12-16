@@ -40,9 +40,6 @@ namespace Advent_of_Code
                 distance[i] = x + y;
             }
             int checkline = 2000000;//aanpassen voor test data
-            //List< (int X, int Y) > inreach = new List<(int X, int Y)>();
-            //Dictionary<(int X, int Y), int> inreach = new Dictionary<(int, int), int>();
-            int blocked = 0;
             List<(int start, int end)> ranges = new List<(int start, int end)>();
             for (int i = 0; i < lines.Length; i++) 
             {
@@ -54,15 +51,13 @@ namespace Advent_of_Code
                     if (SensorY + distance[i] > checkline)
                     {
                         inrange = true;
-                        //inreach.Add(centers[i], distance[i]);
                         remainder = SensorY + distance[i] - checkline;
                     }
 
-                if (SensorY > checkline)
+                if (SensorY >= checkline)
                     if (SensorY - distance[i] < checkline)
                     {
                         inrange = true;
-                        //inreach.Add(centers[i], distance[i]);
                         remainder = distance[i] - SensorY + checkline;
                     }
                 
@@ -71,7 +66,6 @@ namespace Advent_of_Code
                     this.Writeresult1($"sensor op regel {i + 1} is binnen bereik. Remainder = {remainder}");
                     remainder *= 2;
                     remainder++;
-                    blocked += remainder;
                     int almosthalfrange = distance[i] - Math.Abs(SensorY - checkline);
                     ranges.Add((SensorX - almosthalfrange, SensorX + almosthalfrange + 1));
                 }
@@ -84,7 +78,6 @@ namespace Advent_of_Code
                 answer += end - start;
             }
             //check voor beacons op de lijn
-            //(int X, int Y)[] oncheckline = new (int X, int Y)[lines.Length];
             List<(int X, int Y)> oncheckline = new List<(int X, int Y)>();
             foreach ((int X, int Y) in edges)
             {
@@ -92,8 +85,7 @@ namespace Advent_of_Code
                     if(!oncheckline.Contains((X,Y)))
                     oncheckline.Add((X, Y));
             }
-            //answer -= oncheckline.Count;
-            
+            answer -= oncheckline.Count;
             this.Writeresult1(answer.ToString());
         }
 
@@ -105,7 +97,7 @@ namespace Advent_of_Code
                 return ranges;
             for (int i = 0; i < ranges.Count - 1; i++)
             {
-                if (ranges[i].end < ranges[i + 1].start)
+                if (ranges[i].end <= ranges[i + 1].start)
                     finalranges.Add(ranges[i]);
                 else
                 {
