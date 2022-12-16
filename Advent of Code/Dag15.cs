@@ -17,7 +17,7 @@ namespace Advent_of_Code
         {
             (int X, int Y)[] centers = new (int X, int Y)[lines.Length];
             (int X, int Y)[] edges = new (int X, int Y)[lines.Length];
-            
+            //parser
             for(int i = 0; i < lines.Length; i++)
             {
                 string[] parse = lines[i].Split(':');
@@ -33,14 +33,16 @@ namespace Advent_of_Code
                 edges[i] = (int.Parse(closest[0]), int.Parse(closest[1]));
             }
             int[] distance = new int[lines.Length];
+            //afstand tussen beacon en senor
             for(int i = 0; i < lines.Length; i++)
             {
                 int x = Math.Abs(edges[i].X - centers[i].X);
                 int y = Math.Abs(edges[i].Y - centers[i].Y);
                 distance[i] = x + y;
             }
-            int checkline = 2000000;//aanpassen voor test data
+            int checkline = 10;//2000000;//aanpassen voor test data
             List<(int start, int end)> ranges = new List<(int start, int end)>();
+            //overlap met de checklijn
             for (int i = 0; i < lines.Length; i++) 
             {
                 int SensorY = centers[i].Y;
@@ -71,6 +73,7 @@ namespace Advent_of_Code
                 }
             }
             ranges.Sort();
+            //overlap op checklijn dedupliceren (verwijderen van overlap op overlap)
             List<(int start, int end)> finalranges = removeOverlap(ranges);
             int answer = 0;
             foreach((int start, int end) in finalranges)
