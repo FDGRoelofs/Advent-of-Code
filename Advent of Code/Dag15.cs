@@ -61,7 +61,7 @@ namespace Advent_of_Code
             for (int i = 0; i < ranges.Count; i++)
             {
                 if(i == ranges.Count - 1)
-                    finalranges.Add(ranges[i]);//misschien moet hier done = false?
+                    finalranges.Add(ranges[i]);
                 else if (ranges[i].end < ranges[i + 1].start)
                     finalranges.Add(ranges[i]);
                 
@@ -70,18 +70,8 @@ namespace Advent_of_Code
                     int newstart = Math.Min(ranges[i].start, ranges[i + 1].start);
                     int newend = Math.Max(ranges[i].end, ranges[i + 1].end);
                     finalranges.Add((newstart, newend));
-                    //finalranges.Add((ranges[i].start, ranges[i + 1].end));
                     i++;
                 }
-                /*
-                 * else if (ranges[i].end > ranges[i + 1].start) // ranges[i].start <= ranges[i + 1].start && 
-                {
-                    int newstart = Math.Min(ranges[i].start, ranges[i + 1].start);
-                    int newend = Math.Max(ranges[i].end, ranges[i + 1].end);
-                    finalranges.Add((newstart, newend));
-                    i++;
-                }
-                */
             }
             if(ranges.Count == finalranges.Count)
                 return finalranges;
@@ -130,7 +120,6 @@ namespace Advent_of_Code
                     }
                 if (inrange)
                 {
-                    //this.Writeresult1($"sensor op regel {i + 1} is binnen bereik. Remainder = {remainder}");
                     remainder *= 2;
                     remainder++;
                     int almosthalfrange = distance[i] - Math.Abs(SensorY - checkline);
@@ -144,34 +133,26 @@ namespace Advent_of_Code
         public override void Puzzel2()
         {
             List<(int start, int end)> correctrange = new List<(int start, int end)>();
-            //findBlockedX(2000000);
             Stopwatch sw = Stopwatch.StartNew();
-            for(int checkline = 0; checkline <= 4000000; checkline++)//aanpassen voor testdata
-            {
-                List<(int start, int end)> ranges = findBlockedX(checkline);
-                ranges = boundRanges(ranges);
-                ranges = removeOverlap(ranges);
-                if (ranges.Count > 1)
-                {
-                    correctrange = ranges;
-                    int x = ranges[0].end;
-                    this.Writeresult2($"gap op y = {checkline}, x = {x}");
-                }
-            }
+            long answertotal = 4000000;
+            Parallel.For(0, 4000001, checkline =>
+             {
+                 List<(int start, int end)> ranges = findBlockedX(checkline);
+                 ranges = boundRanges(ranges);
+                 ranges = removeOverlap(ranges);
+                 if (ranges.Count > 1)
+                 {
+                     correctrange = ranges;
+                     int x = ranges[0].end;
+                     answertotal *= x;
+                     answertotal += checkline;
+                     this.Writeresult2($"gap op y = {checkline}, x = {x}");
+                 }
+             });
             sw.Stop();
             long time = sw.ElapsedMilliseconds;
             this.Writeresult2($"time elapsed = {time}");
-            /*Parallel.For(0, 400001, checkline =>
-            {
-                List<(int start, int end)> ranges = findBlockedX(checkline);
-                ranges = boundRanges(ranges);
-                ranges = removeOverlap(ranges);
-                if (ranges.Count > 1)
-                {
-                    correctrange = ranges;
-                    this.Writeresult2($"gap op y = {checkline}");
-                }
-            });*/
+            this.Writeresult2($"{answertotal}");
             }
 
             public List<(int start, int end)> boundRanges(List<(int start, int end)> ranges)
@@ -180,10 +161,10 @@ namespace Advent_of_Code
             foreach(var (start, end) in ranges)
             {
                 if(end > 0)
-                    if(start < 400000)
+                    if(start < 4000000)
                     {
                         int newmin = Math.Max(start, 0);
-                        int newmax = Math.Min(end, 400000);
+                        int newmax = Math.Min(end, 4000000);
                         bounded.Add((newmin, newmax));
                     }
             }
