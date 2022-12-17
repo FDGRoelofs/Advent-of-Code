@@ -156,6 +156,7 @@ namespace Advent_of_Code
                     path += "15.in";
                     Dag dag15 = new Dag15(path);
                     output += dag15.result1;
+                    output += dag15.result2;
                     break;
 
             }

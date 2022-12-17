@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Advent_of_Code
 {
@@ -62,7 +63,7 @@ namespace Advent_of_Code
             {
                 if(i == ranges.Count - 1)
                     finalranges.Add(ranges[i]);//misschien moet hier done = false?
-                else if (ranges[i].start <= ranges[i + 1].start && ranges[i].end >= ranges[i + 1].start)
+                else if (ranges[i].start <= ranges[i + 1].start && ranges[i].end > ranges[i + 1].start)
                 {
                     int newstart = Math.Min(ranges[i].start, ranges[i + 1].start);
                     int newend = Math.Max(ranges[i].end, ranges[i + 1].end);
@@ -70,7 +71,7 @@ namespace Advent_of_Code
                     i++;
                     done = false;
                 }
-                else if (ranges[i].end <= ranges[i + 1].start)
+                else if (ranges[i].end < ranges[i + 1].start)
                     finalranges.Add(ranges[i]);
                 else
                 {
@@ -139,18 +140,25 @@ namespace Advent_of_Code
 
         public override void Puzzel2()
         {
-            /*for(int checkline = 0; checkline <= 400000; checkline++)
+            List<(int start, int end)> correctrange = new List<(int start, int end)>();
+            //findBlockedX(2000000);
+            Stopwatch sw = Stopwatch.StartNew();
+            for(int checkline = 0; checkline <= 4000000; checkline++)//aanpassen voor testdata
             {
                 List<(int start, int end)> ranges = findBlockedX(checkline);
                 ranges = boundRanges(ranges);
                 ranges = removeOverlap(ranges);
                 if (ranges.Count > 1)
                 {
-                    this.Writeresult2($"gap op y = {checkline}");
+                    correctrange = ranges;
+                    int x = ranges[0].end;
+                    this.Writeresult2($"gap op y = {checkline}, x = {x}");
                 }
-            }*/
-            List<(int start, int end)> correctrange = new List<(int start, int end)>();
-            Parallel.For(0, 400001, checkline =>
+            }
+            sw.Stop();
+            long time = sw.ElapsedMilliseconds;
+            this.Writeresult2($"time elapsed = {time}");
+            /*Parallel.For(0, 400001, checkline =>
             {
                 List<(int start, int end)> ranges = findBlockedX(checkline);
                 ranges = boundRanges(ranges);
@@ -160,9 +168,7 @@ namespace Advent_of_Code
                     correctrange = ranges;
                     this.Writeresult2($"gap op y = {checkline}");
                 }
-            });
-
-            
+            });*/
         }
 
         public List<(int start, int end)> boundRanges(List<(int start, int end)> ranges)
