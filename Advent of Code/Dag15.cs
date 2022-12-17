@@ -13,26 +13,16 @@ namespace Advent_of_Code
         {
 
         }
+        (int X, int Y)[] centers;
+        (int X, int Y)[] edges;
+        int[] distance;
         public override void Puzzel1()
         {
-            (int X, int Y)[] centers = new (int X, int Y)[lines.Length];
-            (int X, int Y)[] edges = new (int X, int Y)[lines.Length];
+            centers = new (int X, int Y)[lines.Length];
+            edges = new (int X, int Y)[lines.Length];
             //parser
-            for(int i = 0; i < lines.Length; i++)
-            {
-                string[] parse = lines[i].Split(':');
-                parse[0] = parse[0][parse[0].IndexOf('x')..];
-                parse[1] = parse[1][parse[1].IndexOf('x')..];
-                string[] center = parse[0].Split(",");
-                string[] closest = parse[1].Split(",");
-                center[0] = Regex.Match(center[0], @"[+-]?\d+(\.\d+)?").Value;
-                center[1] = Regex.Match(center[1], @"[+-]?\d+(\.\d+)?").Value;
-                closest[0] = Regex.Match(closest[0], @"[+-]?\d+(\.\d+)?").Value;
-                closest[1] = Regex.Match(closest[1], @"[+-]?\d+(\.\d+)?").Value;
-                centers[i] = (int.Parse(center[0]),int.Parse(center[1]));
-                edges[i] = (int.Parse(closest[0]), int.Parse(closest[1]));
-            }
-            int[] distance = new int[lines.Length];
+            ParseInput();
+            distance = new int[lines.Length];
             //afstand tussen beacon en senor
             for(int i = 0; i < lines.Length; i++)
             {
@@ -41,38 +31,8 @@ namespace Advent_of_Code
                 distance[i] = x + y;
             }
             int checkline = 2000000;//aanpassen voor test data
-            List<(int start, int end)> ranges = new List<(int start, int end)>();
             //bereken per sensor de range van overlap met de checklijn
-            for (int i = 0; i < lines.Length; i++) 
-            {
-                int SensorY = centers[i].Y;
-                int SensorX = centers[i].X;
-                bool inrange = false;
-                int remainder = 0;
-                if (SensorY < checkline)
-                    if (SensorY + distance[i] > checkline)
-                    {
-                        inrange = true;
-                        remainder = SensorY + distance[i] - checkline;
-                    }
-
-                if (SensorY >= checkline)
-                    if (SensorY - distance[i] < checkline)
-                    {
-                        inrange = true;
-                        remainder = distance[i] - SensorY + checkline;
-                    }
-                
-                if(inrange)
-                {
-                    this.Writeresult1($"sensor op regel {i + 1} is binnen bereik. Remainder = {remainder}");
-                    remainder *= 2;
-                    remainder++;
-                    int almosthalfrange = distance[i] - Math.Abs(SensorY - checkline);
-                    ranges.Add((SensorX - almosthalfrange, SensorX + almosthalfrange + 1));
-                }
-            }
-            ranges.Sort();
+            List<(int start, int end)> ranges = findBlockedX(checkline);
             //combineer de ranges die met elkaar overlappen
             List<(int start, int end)> finalranges = removeOverlap(ranges);
             int answer = 0;
@@ -98,9 +58,11 @@ namespace Advent_of_Code
             bool done = true;
             if (ranges.Count == 1)
                 return ranges;
-            for (int i = 0; i < ranges.Count - 1; i++)
+            for (int i = 0; i < ranges.Count; i++)
             {
-                if (ranges[i].start <= ranges[i + 1].start && ranges[i].end >= ranges[i + 1].end)
+                if(i == ranges.Count - 1)
+                    finalranges.Add(ranges[i]);//misschien moet hier done = false?
+                else if (ranges[i].start <= ranges[i + 1].start && ranges[i].end >= ranges[i + 1].start)
                 {
                     int newstart = Math.Min(ranges[i].start, ranges[i + 1].start);
                     int newend = Math.Max(ranges[i].end, ranges[i + 1].end);
@@ -123,9 +85,100 @@ namespace Advent_of_Code
                 return removeOverlap(finalranges);
         }
 
+        public void ParseInput()
+        {
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string[] parse = lines[i].Split(':');
+                parse[0] = parse[0][parse[0].IndexOf('x')..];
+                parse[1] = parse[1][parse[1].IndexOf('x')..];
+                string[] center = parse[0].Split(",");
+                string[] closest = parse[1].Split(",");
+                center[0] = Regex.Match(center[0], @"[+-]?\d+(\.\d+)?").Value;
+                center[1] = Regex.Match(center[1], @"[+-]?\d+(\.\d+)?").Value;
+                closest[0] = Regex.Match(closest[0], @"[+-]?\d+(\.\d+)?").Value;
+                closest[1] = Regex.Match(closest[1], @"[+-]?\d+(\.\d+)?").Value;
+                centers[i] = (int.Parse(center[0]), int.Parse(center[1]));
+                edges[i] = (int.Parse(closest[0]), int.Parse(closest[1]));
+            }
+        }
+
+        public List<(int start, int end)> findBlockedX(int checkline)
+        {
+            List<(int start, int end)> ranges = new List<(int start, int end)>();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                int SensorY = centers[i].Y;
+                int SensorX = centers[i].X;
+                bool inrange = false;
+                int remainder = 0;
+                if (SensorY < checkline)
+                    if (SensorY + distance[i] > checkline)
+                    {
+                        inrange = true;
+                        remainder = SensorY + distance[i] - checkline;
+                    }
+                if (SensorY >= checkline)
+                    if (SensorY - distance[i] < checkline)
+                    {
+                        inrange = true;
+                        remainder = distance[i] - SensorY + checkline;
+                    }
+                if (inrange)
+                {
+                    //this.Writeresult1($"sensor op regel {i + 1} is binnen bereik. Remainder = {remainder}");
+                    remainder *= 2;
+                    remainder++;
+                    int almosthalfrange = distance[i] - Math.Abs(SensorY - checkline);
+                    ranges.Add((SensorX - almosthalfrange, SensorX + almosthalfrange + 1));
+                }
+            }
+            ranges.Sort();
+            return ranges;
+        }
+
         public override void Puzzel2()
         {
+            /*for(int checkline = 0; checkline <= 400000; checkline++)
+            {
+                List<(int start, int end)> ranges = findBlockedX(checkline);
+                ranges = boundRanges(ranges);
+                ranges = removeOverlap(ranges);
+                if (ranges.Count > 1)
+                {
+                    this.Writeresult2($"gap op y = {checkline}");
+                }
+            }*/
+            List<(int start, int end)> correctrange = new List<(int start, int end)>();
+            Parallel.For(0, 400001, checkline =>
+            {
+                List<(int start, int end)> ranges = findBlockedX(checkline);
+                ranges = boundRanges(ranges);
+                ranges = removeOverlap(ranges);
+                if (ranges.Count > 1)
+                {
+                    correctrange = ranges;
+                    this.Writeresult2($"gap op y = {checkline}");
+                }
+            });
+
             
+        }
+
+        public List<(int start, int end)> boundRanges(List<(int start, int end)> ranges)
+        {
+            List<(int start, int end)> bounded = new List<(int start, int end)>();
+            foreach(var (start, end) in ranges)
+            {
+                if(end > 0)
+                    if(start < 400000)
+                    {
+                        int newmin = Math.Max(start, 0);
+                        int newmax = Math.Min(end, 400000);
+                        bounded.Add((newmin, newmax));
+                    }
+            }
+            return bounded;
         }
     }
 }
