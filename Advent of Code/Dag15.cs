@@ -55,32 +55,35 @@ namespace Advent_of_Code
 
         public List<(int start, int end)> removeOverlap(List<(int start, int end)> ranges)
         {
-            List<(int start, int end)> finalranges = new List<(int start, int end)>();
-            bool done = true;
             if (ranges.Count == 1)
                 return ranges;
+            List<(int start, int end)> finalranges = new List<(int start, int end)>();
             for (int i = 0; i < ranges.Count; i++)
             {
                 if(i == ranges.Count - 1)
                     finalranges.Add(ranges[i]);//misschien moet hier done = false?
-                else if (ranges[i].start <= ranges[i + 1].start && ranges[i].end > ranges[i + 1].start)
+                else if (ranges[i].end < ranges[i + 1].start)
+                    finalranges.Add(ranges[i]);
+                
+                else
+                {
+                    int newstart = Math.Min(ranges[i].start, ranges[i + 1].start);
+                    int newend = Math.Max(ranges[i].end, ranges[i + 1].end);
+                    finalranges.Add((newstart, newend));
+                    //finalranges.Add((ranges[i].start, ranges[i + 1].end));
+                    i++;
+                }
+                /*
+                 * else if (ranges[i].end > ranges[i + 1].start) // ranges[i].start <= ranges[i + 1].start && 
                 {
                     int newstart = Math.Min(ranges[i].start, ranges[i + 1].start);
                     int newend = Math.Max(ranges[i].end, ranges[i + 1].end);
                     finalranges.Add((newstart, newend));
                     i++;
-                    done = false;
                 }
-                else if (ranges[i].end < ranges[i + 1].start)
-                    finalranges.Add(ranges[i]);
-                else
-                {
-                    finalranges.Add((ranges[i].start, ranges[i + 1].end));
-                    done = false;
-                    i++;
-                }
+                */
             }
-            if(done)
+            if(ranges.Count == finalranges.Count)
                 return finalranges;
             else
                 return removeOverlap(finalranges);
@@ -169,9 +172,9 @@ namespace Advent_of_Code
                     this.Writeresult2($"gap op y = {checkline}");
                 }
             });*/
-        }
+            }
 
-        public List<(int start, int end)> boundRanges(List<(int start, int end)> ranges)
+            public List<(int start, int end)> boundRanges(List<(int start, int end)> ranges)
         {
             List<(int start, int end)> bounded = new List<(int start, int end)>();
             foreach(var (start, end) in ranges)
