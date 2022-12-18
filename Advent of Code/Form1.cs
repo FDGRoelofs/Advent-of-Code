@@ -154,7 +154,7 @@ namespace Advent_of_Code
                     output += dag12.result2;
                     break;
                 case "Dag 14":
-                    path += "14test.in";
+                    path += "14.in";
                     Dag dag14 = new Dag14(path);
                     output = dag14.result1;
                     output += dag14.result2;

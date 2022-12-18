@@ -24,15 +24,14 @@ namespace Advent_of_Code
             hell = new Vector2(-1, -1);
             start = new Vector2(500, 0);
             parseLines();
-            rockwall = new bool[1000, maxdepth + 2];
+            rockwall = new bool[1000, maxdepth + 3];
             foreach(List<Vector2> elem in rockpaths)
                 drawLine(elem);
             for (int i = 0; i < 1000; i++)
-                rockwall[i, maxdepth + 1] = true;
-            //bool test = rockwall[500, 9];
+                rockwall[i, maxdepth + 2] = true;
             bool settled = true;
             long sandcount = 0;
-            while(settled && (!rockwall[500,0]) && sandcount < 100) // aanpassen voor echte data en/of na debuggen
+            while(settled && (!rockwall[500,0])) // aanpassen voor echte data en/of na debuggen
             {
                 settled = newSand();
                 if(settled)
@@ -97,7 +96,7 @@ namespace Advent_of_Code
             bool falling = true;
             while(falling)
             {
-                if (landing.Y == maxdepth + 1)
+                if (landing.Y == maxdepth)
                 {
                     landing.Y--;
                     falling = false;
