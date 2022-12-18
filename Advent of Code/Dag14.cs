@@ -29,13 +29,11 @@ namespace Advent_of_Code
                 drawLine(elem);
             for (int i = 0; i < 1000; i++)
                 rockwall[i, maxdepth + 2] = true;
-            bool settled = true;
             long sandcount = 0;
-            while(settled && (!rockwall[500,0])) // aanpassen voor echte data en/of na debuggen
+            while(!rockwall[500,0]) // aanpassen voor echte data en/of na debuggen
             {
-                settled = newSand();
-                if(settled)
-                    sandcount++;
+                newSand();
+                sandcount++;
             }
             this.Writeresult1(sandcount.ToString());
         }
@@ -96,14 +94,7 @@ namespace Advent_of_Code
             bool falling = true;
             while(falling)
             {
-                if (landing.Y == maxdepth)
-                {
-                    landing.Y--;
-                    falling = false;
-                }
-                else
-                {
-                    Vector2 newspot = checkSides(landing);
+                Vector2 newspot = checkSides(landing);
                     if (newspot == hell)
                     {
                         landing.Y--;
@@ -113,7 +104,7 @@ namespace Advent_of_Code
                     {
                         landing = collisionBelow(newspot);
                     }
-                }
+                
             }
             this.Writeresult2(landing.ToString());
             rockwall[(int)landing.X, (int)landing.Y] = true;
