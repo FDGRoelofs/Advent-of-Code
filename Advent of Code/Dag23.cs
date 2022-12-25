@@ -45,6 +45,8 @@ namespace Advent_of_Code
                 proposePositions();
                 currentPos = handleProposals();
             }
+            minx = int.MaxValue;
+            miny = int.MaxValue;
             foreach (Vector2 elem in currentPos)
             {
                 if (elem.X < minx)
@@ -61,6 +63,20 @@ namespace Advent_of_Code
             int fieldsize = boundx * boundy;
             int open = fieldsize - currentPos.Count;
             this.Writeresult1(open.ToString());
+            string debug = "";
+            for(int y = 0; y < field.GetLength(1); y ++)
+            {
+                for (int x = 0; x < field.GetLength(0); x++)
+                {
+                    if (field[x, y])
+                        debug += '#';
+                    else
+                        debug += '_';
+                }
+                debug += Environment.NewLine;
+            }
+            this.Writeresult1(debug);
+                
         }
 
         public List<Vector2> boundList(List<Vector2> checklist)
@@ -86,13 +102,12 @@ namespace Advent_of_Code
             List<Vector2> result = new List<Vector2>();
             foreach(Vector2 elem in checklist)
             {
-                int x = (int)elem.X + minx;
-                int y = (int)elem.Y + miny;
+                int x = (int)elem.X - minx;
+                int y = (int)elem.Y - miny;
                 result.Add(new Vector2(x, y));
             }
             maxx -= minx;
             maxy -= miny;
-
             return result;
         }
 
