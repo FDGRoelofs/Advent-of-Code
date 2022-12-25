@@ -43,6 +43,7 @@ namespace Advent_of_Code
                 PuzzleSelector.Items.Add("Dag 12");
                 PuzzleSelector.Items.Add("Dag 14");
                 PuzzleSelector.Items.Add("Dag 15");
+                PuzzleSelector.Items.Add("Dag 23");
             }
         }
 
@@ -164,6 +165,11 @@ namespace Advent_of_Code
                     Dag dag15 = new Dag15(path);
                     output += dag15.result1;
                     output += dag15.result2;
+                    break;
+                case "Dag 23":
+                    path += "23test.in";
+                    Dag dag23 = new Dag23(path);
+                    output += dag23.result1;
                     break;
 
             }
