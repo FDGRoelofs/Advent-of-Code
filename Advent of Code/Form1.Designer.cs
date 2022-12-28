@@ -96,6 +96,7 @@
             // 
             // outputBox
             // 
+            this.outputBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.outputBox.Location = new System.Drawing.Point(525, 42);
             this.outputBox.Name = "outputBox";
             this.outputBox.Size = new System.Drawing.Size(240, 379);

@@ -33,16 +33,18 @@ namespace Advent_of_Code
                 samenvoegen
                 List2 coordinaten
              */
+
             currentPos = new List<Vector2>();
             for(int y =0; y < lines.Length;y++)
                 for(int x = 0; x < lines[0].Length; x++)
                     if (lines[y][x] == '#')
                         currentPos.Add(new Vector2(x + 1, y + 1));
-            for(int i = 0; i <10; i++)
+            for(int i = 0; i < 10; i++) // limit aanpassen voor test data
             {
                 currentPos = boundList(currentPos);
                 drawfield();
-                proposePositions();
+                drawDebug();
+                proposePositions(i);
                 currentPos = handleProposals();
             }
             minx = int.MaxValue;
@@ -63,20 +65,25 @@ namespace Advent_of_Code
             int fieldsize = boundx * boundy;
             int open = fieldsize - currentPos.Count;
             this.Writeresult1(open.ToString());
+            drawDebug();
+                
+        }
+        public void drawDebug()
+        {
             string debug = "";
-            for(int y = 0; y < field.GetLength(1); y ++)
+
+            for (int y = 0; y < field.GetLength(1); y++)
             {
                 for (int x = 0; x < field.GetLength(0); x++)
                 {
                     if (field[x, y])
                         debug += '#';
                     else
-                        debug += '_';
+                        debug += '-';
                 }
                 debug += Environment.NewLine;
             }
             this.Writeresult1(debug);
-                
         }
 
         public List<Vector2> boundList(List<Vector2> checklist)
@@ -119,7 +126,7 @@ namespace Advent_of_Code
                 field[(int)elem.X, (int)elem.Y] = true;
         }
 
-        public void proposePositions()
+        public void proposePositions(int round)
         {
             foreach(Vector2 oldpos in currentPos)
             {
@@ -127,7 +134,7 @@ namespace Advent_of_Code
                 int y = (int)oldpos.Y;
                 int n = countNeighbours(x, y);
                 if (n > 0 && n < 6)
-                    propDirection(oldpos);
+                    propDirection(oldpos, round);
                 else
                     appendProp(x+1, y+1, oldpos); // +1 om het hele veld een stukje te schuiven
                 //propPos[x, y].Add(oldpos);
@@ -156,39 +163,116 @@ namespace Advent_of_Code
             return n;
         }
 
-        public bool propDirection(Vector2 oldpos)
+        public bool propDirection(Vector2 oldpos, int round)
         {
             int x = (int)oldpos.X;
             int y = (int)oldpos.Y;
             //check north
             bool northfree = !field[x - 1, y - 1] && !field[x, y - 1] && !field[x + 1, y - 1];
             bool southfree = !field[x - 1, y + 1] && !field[x, y + 1] && !field[x + 1, y + 1];
-            bool westfree = !field[x - 1, y - 1] && !field[x, y - 1] && !field[x + 1, y - 1];
-            bool eastfree = !field[x - 1, y + 1] && !field[x, y + 1] && !field[x + 1, y + 1];
+            bool westfree = !field[x - 1, y - 1] && !field[x - 1, y] && !field[x - 1, y + 1];
+            bool eastfree = !field[x + 1, y - 1] && !field[x + 1, y] && !field[x + 1, y + 1];
             x++;
             y++;//++ om het hele veld een stukje te schuiven
-            if (northfree)
+            oldpos.X++;
+            oldpos.Y++;
+            int n = round % 4;
+            switch(n)
             {
-                appendProp(x, y - 1, oldpos);
-                return true;
+                case 0:
+                    if (northfree)
+                    {
+                        appendProp(x, y - 1, oldpos);
+                        return true;
+                    }
+                    if (southfree)
+                    {
+                        appendProp(x, y + 1, oldpos);
+                        return true;
+                    }
+                    if (westfree)
+                    {
+                        appendProp(x - 1, y, oldpos);
+                        return true;
+                    }
+                    if (eastfree)
+                    {
+                        appendProp(x + 1, y, oldpos);
+                        return true;
+                    }
+                    appendProp(x, y, oldpos);
+                    return false;
+                case 1:
+                    if (southfree)
+                    {
+                        appendProp(x, y + 1, oldpos);
+                        return true;
+                    }
+                    if (westfree)
+                    {
+                        appendProp(x - 1, y, oldpos);
+                        return true;
+                    }
+                    if (eastfree)
+                    {
+                        appendProp(x + 1, y, oldpos);
+                        return true;
+                    }
+                    if (northfree)
+                    {
+                        appendProp(x, y - 1, oldpos);
+                        return true;
+                    }
+                    appendProp(x, y, oldpos);
+                    return false;
+                case 2:
+                    if (westfree)
+                    {
+                        appendProp(x - 1, y, oldpos);
+                        return true;
+                    }
+                    if (eastfree)
+                    {
+                        appendProp(x + 1, y, oldpos);
+                        return true;
+                    }
+                    if (northfree)
+                    {
+                        appendProp(x, y - 1, oldpos);
+                        return true;
+                    }
+                    if (southfree)
+                    {
+                        appendProp(x, y + 1, oldpos);
+                        return true;
+                    }
+                    appendProp(x, y, oldpos);
+                    return false;
+                case 3:
+                    if (eastfree)
+                    {
+                        appendProp(x + 1, y, oldpos);
+                        return true;
+                    }
+                    if (northfree)
+                    {
+                        appendProp(x, y - 1, oldpos);
+                        return true;
+                    }
+                    if (southfree)
+                    {
+                        appendProp(x, y + 1, oldpos);
+                        return true;
+                    }
+                    if (westfree)
+                    {
+                        appendProp(x - 1, y, oldpos);
+                        return true;
+                    }
+                    appendProp(x, y, oldpos);
+                    return false;
             }
-            if(southfree)
-            {
-                appendProp(x, y + 1, oldpos);
-                return true;
-            }
-            if(westfree)
-            {
-                appendProp(x, y - 1, oldpos);
-                return true;
-            }
-            //check east
-            if(eastfree)
-            {
-                appendProp(x, y+1, oldpos);
-                return true;
-            }
-            appendProp(x, y, oldpos);
+            throw new Exception();
             return false;
         }
 
