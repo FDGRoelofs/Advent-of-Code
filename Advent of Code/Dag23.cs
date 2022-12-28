@@ -136,7 +136,12 @@ namespace Advent_of_Code
                 if (n > 0 && n < 6)
                     propDirection(oldpos, round);
                 else
-                    appendProp(x+1, y+1, oldpos); // +1 om het hele veld een stukje te schuiven
+                {
+                    //x++;
+                    //y++;
+                    appendProp(x, y , new Vector2(x,y));
+                }
+                     // +1 om het hele veld een stukje te schuiven
                 //propPos[x, y].Add(oldpos);
             }
         }
@@ -167,15 +172,14 @@ namespace Advent_of_Code
         {
             int x = (int)oldpos.X;
             int y = (int)oldpos.Y;
-            //check north
             bool northfree = !field[x - 1, y - 1] && !field[x, y - 1] && !field[x + 1, y - 1];
             bool southfree = !field[x - 1, y + 1] && !field[x, y + 1] && !field[x + 1, y + 1];
             bool westfree = !field[x - 1, y - 1] && !field[x - 1, y] && !field[x - 1, y + 1];
             bool eastfree = !field[x + 1, y - 1] && !field[x + 1, y] && !field[x + 1, y + 1];
-            x++;
-            y++;//++ om het hele veld een stukje te schuiven
-            oldpos.X++;
-            oldpos.Y++;
+            //x++;
+            //y++;//++ om het hele veld een stukje te schuiven
+            //oldpos.X++;
+            //oldpos.Y++;
             int n = round % 4;
             switch(n)
             {
@@ -278,9 +282,11 @@ namespace Advent_of_Code
 
         public void appendProp(int x, int y, Vector2 oldpos)
         {
+            x++;// +1 om het hele veld een stukje te schuiven
+            y++;
             if (propPos[x, y] == null)
                 propPos[x, y] = new List<Vector2>();
-            propPos[x, y].Add(oldpos);
+            propPos[x, y].Add(new Vector2(oldpos.X + 1,oldpos.Y + 1)); // +1 om het hele veld een stukje te schuiven
         }
 
         public List<Vector2> handleProposals()
