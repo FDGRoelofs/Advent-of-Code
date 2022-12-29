@@ -40,15 +40,12 @@ namespace Advent_of_Code
                 for (int x = 0; x < lines[0].Length; x++)
                     if (lines[y][x] == '#')
                         currentPos.Add(new Vector2(x + 1, y + 1));
-            int answer2 = -1;
-            for (int i = 0; i < 1000 && answer2 < 0; i++) // limit aanpassen voor test data
+            for (int i = 0; i < 10; i++) // limit aanpassen voor test data
             {
                 currentPos = boundList(currentPos);
                 drawfield();
                 drawDebug();
                 proposePositions(i);
-                if (elvesMoved == 0)
-                    answer2 = i;
                 currentPos = handleProposals();
             }
             minx = int.MaxValue;
@@ -71,7 +68,6 @@ namespace Advent_of_Code
             drawfield();
             drawDebug();
             this.Writeresult1(open.ToString());
-            this.Writeresult2(answer2.ToString());
 
         }
         public void drawDebug()
@@ -332,7 +328,24 @@ namespace Advent_of_Code
 
         public override void Puzzel2()
         {
-
+            currentPos = new List<Vector2>();
+            for (int y = 0; y < lines.Length; y++)
+                for (int x = 0; x < lines[0].Length; x++)
+                    if (lines[y][x] == '#')
+                        currentPos.Add(new Vector2(x + 1, y + 1));
+            int answer2 = -1;
+            for (int i = 0; i < 1000 && answer2 < 0; i++) // limit aanpassen voor test data
+            {
+                currentPos = boundList(currentPos);
+                drawfield();
+                proposePositions(i);
+                if (elvesMoved == 0)
+                    answer2 = i + 1;
+                currentPos = handleProposals();
+            }
+            drawfield();
+            string result = $"Deel 2: {answer2}";
+            this.Writeresult2(result);
         }
     }
 }
