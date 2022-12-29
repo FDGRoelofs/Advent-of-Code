@@ -20,6 +20,7 @@ namespace Advent_of_Code
         int maxy;
         bool[,] field;
         List<Vector2>[,] propPos;
+        int elvesMoved;
         public override void Puzzel1()
         {
             /*
@@ -35,16 +36,19 @@ namespace Advent_of_Code
              */
 
             currentPos = new List<Vector2>();
-            for(int y =0; y < lines.Length;y++)
-                for(int x = 0; x < lines[0].Length; x++)
+            for (int y = 0; y < lines.Length; y++)
+                for (int x = 0; x < lines[0].Length; x++)
                     if (lines[y][x] == '#')
                         currentPos.Add(new Vector2(x + 1, y + 1));
-            for(int i = 0; i < 10; i++) // limit aanpassen voor test data
+            int answer2 = -1;
+            for (int i = 0; i < 1000 && answer2 < 0; i++) // limit aanpassen voor test data
             {
                 currentPos = boundList(currentPos);
                 drawfield();
                 drawDebug();
                 proposePositions(i);
+                if (elvesMoved == 0)
+                    answer2 = i;
                 currentPos = handleProposals();
             }
             minx = int.MaxValue;
@@ -60,13 +64,15 @@ namespace Advent_of_Code
                 else if (elem.Y > maxy)
                     maxy = (int)elem.Y;
             }
-            int boundx = maxx - minx;
-            int boundy = maxy - miny;
+            int boundx = maxx - minx + 1;
+            int boundy = maxy - miny + 1;
             int fieldsize = boundx * boundy;
             int open = fieldsize - currentPos.Count;
-            this.Writeresult1(open.ToString());
+            drawfield();
             drawDebug();
-                
+            this.Writeresult1(open.ToString());
+            this.Writeresult2(answer2.ToString());
+
         }
         public void drawDebug()
         {
@@ -92,7 +98,7 @@ namespace Advent_of_Code
             miny = 0;
             maxx = 0;
             maxy = 0;
-            foreach(Vector2 elem in checklist)
+            foreach (Vector2 elem in checklist)
             {
                 if (elem.X < minx)
                     minx = (int)elem.X;
@@ -103,11 +109,11 @@ namespace Advent_of_Code
                 else if (elem.Y > maxy)
                     maxy = (int)elem.Y;
             }
-            
+
             if (minx == 0 && miny == 0)
                 return checklist;
             List<Vector2> result = new List<Vector2>();
-            foreach(Vector2 elem in checklist)
+            foreach (Vector2 elem in checklist)
             {
                 int x = (int)elem.X - minx;
                 int y = (int)elem.Y - miny;
@@ -128,7 +134,8 @@ namespace Advent_of_Code
 
         public void proposePositions(int round)
         {
-            foreach(Vector2 oldpos in currentPos)
+            elvesMoved = 0;
+            foreach (Vector2 oldpos in currentPos)
             {
                 int x = (int)oldpos.X;
                 int y = (int)oldpos.Y;
@@ -139,9 +146,9 @@ namespace Advent_of_Code
                 {
                     //x++;
                     //y++;
-                    appendProp(x, y , new Vector2(x,y));
+                    appendProp(x, y, new Vector2(x, y));
                 }
-                     // +1 om het hele veld een stukje te schuiven
+                // +1 om het hele veld een stukje te schuiven
                 //propPos[x, y].Add(oldpos);
             }
         }
@@ -157,7 +164,7 @@ namespace Advent_of_Code
                 n++;
             if (field[x - 1, y])
                 n++;
-            if (field[x + 1, y ])
+            if (field[x + 1, y])
                 n++;
             if (field[x - 1, y + 1])
                 n++;
@@ -181,27 +188,31 @@ namespace Advent_of_Code
             //oldpos.X++;
             //oldpos.Y++;
             int n = round % 4;
-            switch(n)
+            switch (n)
             {
                 case 0:
                     if (northfree)
                     {
                         appendProp(x, y - 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (southfree)
                     {
                         appendProp(x, y + 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (westfree)
                     {
                         appendProp(x - 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (eastfree)
                     {
                         appendProp(x + 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     appendProp(x, y, oldpos);
@@ -210,21 +221,25 @@ namespace Advent_of_Code
                     if (southfree)
                     {
                         appendProp(x, y + 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (westfree)
                     {
                         appendProp(x - 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (eastfree)
                     {
                         appendProp(x + 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (northfree)
                     {
                         appendProp(x, y - 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     appendProp(x, y, oldpos);
@@ -233,21 +248,25 @@ namespace Advent_of_Code
                     if (westfree)
                     {
                         appendProp(x - 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (eastfree)
                     {
                         appendProp(x + 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (northfree)
                     {
                         appendProp(x, y - 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (southfree)
                     {
                         appendProp(x, y + 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     appendProp(x, y, oldpos);
@@ -256,21 +275,25 @@ namespace Advent_of_Code
                     if (eastfree)
                     {
                         appendProp(x + 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (northfree)
                     {
                         appendProp(x, y - 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (southfree)
                     {
                         appendProp(x, y + 1, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     if (westfree)
                     {
                         appendProp(x - 1, y, oldpos);
+                        elvesMoved++;
                         return true;
                     }
                     appendProp(x, y, oldpos);
@@ -286,16 +309,16 @@ namespace Advent_of_Code
             y++;
             if (propPos[x, y] == null)
                 propPos[x, y] = new List<Vector2>();
-            propPos[x, y].Add(new Vector2(oldpos.X + 1,oldpos.Y + 1)); // +1 om het hele veld een stukje te schuiven
+            propPos[x, y].Add(new Vector2(oldpos.X + 1, oldpos.Y + 1)); // +1 om het hele veld een stukje te schuiven
         }
 
         public List<Vector2> handleProposals()
         {
             List<Vector2> newpos = new List<Vector2>();
-            for(int y = 0; y < propPos.GetLength(1); y++)
-                for(int x = 0; x < propPos.GetLength(0); x++)
+            for (int y = 0; y < propPos.GetLength(1); y++)
+                for (int x = 0; x < propPos.GetLength(0); x++)
                 {
-                    if (propPos[x,y] != null)
+                    if (propPos[x, y] != null)
                     {
                         int c = propPos[x, y].Count;
                         if (c == 1)
@@ -309,7 +332,7 @@ namespace Advent_of_Code
 
         public override void Puzzel2()
         {
-           
+
         }
     }
 }

@@ -170,6 +170,7 @@ namespace Advent_of_Code
                     path += "23test.in";
                     Dag dag23 = new Dag23(path);
                     output += dag23.result1;
+                    output += dag23.result2;
                     break;
 
             }
