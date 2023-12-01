@@ -28,99 +28,96 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.YearChanger = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.PathField = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.PuzzleSelector = new System.Windows.Forms.ListBox();
-            this.outputBox = new System.Windows.Forms.RichTextBox();
-            this.SuspendLayout();
+            label1 = new Label();
+            YearChanger = new ComboBox();
+            label4 = new Label();
+            PathField = new Label();
+            button1 = new Button();
+            PuzzleSelector = new ListBox();
+            outputBox = new RichTextBox();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(24, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(202, 37);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Advent of Code";
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(24, 20);
+            label1.Name = "label1";
+            label1.Size = new Size(202, 37);
+            label1.TabIndex = 0;
+            label1.Text = "Advent of Code";
             // 
             // YearChanger
             // 
-            this.YearChanger.FormattingEnabled = true;
-            this.YearChanger.Items.AddRange(new object[] {
-            "2022",
-            "2021"});
-            this.YearChanger.Location = new System.Drawing.Point(24, 69);
-            this.YearChanger.Name = "YearChanger";
-            this.YearChanger.Size = new System.Drawing.Size(121, 23);
-            this.YearChanger.TabIndex = 1;
+            YearChanger.FormattingEnabled = true;
+            YearChanger.Items.AddRange(new object[] { "2023", "2022", "2021" });
+            YearChanger.Location = new Point(24, 69);
+            YearChanger.Name = "YearChanger";
+            YearChanger.Size = new Size(121, 23);
+            YearChanger.TabIndex = 1;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 347);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 15);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Input";
+            label4.AutoSize = true;
+            label4.Location = new Point(24, 347);
+            label4.Name = "label4";
+            label4.Size = new Size(35, 15);
+            label4.TabIndex = 4;
+            label4.Text = "Input";
             // 
             // PathField
             // 
-            this.PathField.AutoSize = true;
-            this.PathField.Location = new System.Drawing.Point(24, 371);
-            this.PathField.Name = "PathField";
-            this.PathField.Size = new System.Drawing.Size(0, 15);
-            this.PathField.TabIndex = 5;
+            PathField.AutoSize = true;
+            PathField.Location = new Point(24, 371);
+            PathField.Name = "PathField";
+            PathField.Size = new Size(0, 15);
+            PathField.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(57, 400);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Go!";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Location = new Point(57, 400);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 6;
+            button1.Text = "Go!";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // PuzzleSelector
             // 
-            this.PuzzleSelector.FormattingEnabled = true;
-            this.PuzzleSelector.ItemHeight = 15;
-            this.PuzzleSelector.Location = new System.Drawing.Point(275, 42);
-            this.PuzzleSelector.Name = "PuzzleSelector";
-            this.PuzzleSelector.Size = new System.Drawing.Size(203, 379);
-            this.PuzzleSelector.TabIndex = 7;
+            PuzzleSelector.FormattingEnabled = true;
+            PuzzleSelector.ItemHeight = 15;
+            PuzzleSelector.Location = new Point(275, 42);
+            PuzzleSelector.Name = "PuzzleSelector";
+            PuzzleSelector.Size = new Size(203, 379);
+            PuzzleSelector.TabIndex = 7;
             // 
             // outputBox
             // 
-            this.outputBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.outputBox.Location = new System.Drawing.Point(525, 42);
-            this.outputBox.Name = "outputBox";
-            this.outputBox.Size = new System.Drawing.Size(240, 379);
-            this.outputBox.TabIndex = 8;
-            this.outputBox.Text = "";
+            outputBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            outputBox.Location = new Point(525, 42);
+            outputBox.Name = "outputBox";
+            outputBox.Size = new Size(240, 379);
+            outputBox.TabIndex = 8;
+            outputBox.Text = "";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.outputBox);
-            this.Controls.Add(this.PuzzleSelector);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.PathField);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.YearChanger);
-            this.Controls.Add(this.label1);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(outputBox);
+            Controls.Add(PuzzleSelector);
+            Controls.Add(button1);
+            Controls.Add(PathField);
+            Controls.Add(label4);
+            Controls.Add(YearChanger);
+            Controls.Add(label1);
+            Name = "Form1";
+            Text = "Form1";
+            Load += Form1_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
