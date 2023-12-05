@@ -55,6 +55,7 @@
             YearChanger.Name = "YearChanger";
             YearChanger.Size = new Size(121, 23);
             YearChanger.TabIndex = 1;
+            YearChanger.SelectedIndexChanged += YearChanger_SelectedIndexChanged;
             // 
             // label4
             // 

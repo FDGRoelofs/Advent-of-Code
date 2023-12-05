@@ -45,8 +45,12 @@ namespace Advent_of_Code
                 PuzzleSelector.Items.Add("Dag 15");
                 PuzzleSelector.Items.Add("Dag 23");
             }
-            else if(year == "2023")
+            else if (year == "2023")
+            {
                 PuzzleSelector.Items.Add("Dag 1");
+                PuzzleSelector.Items.Add("Dag 2");
+            }
+                
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -190,13 +194,29 @@ namespace Advent_of_Code
                         output += System.Environment.NewLine;
                         output += dag1.result2;
                         break;
+                    case "Dag 2":
+                        path += "02.in";
+                        Dag2302 dag2 = new Dag2302(path);
+                        output += dag2.result1;
+                        output += System.Environment.NewLine;
+                        output += dag2.result2;
+                        /*output += System.Environment.NewLine;
+                        for(int i = 0; i < 10; i++)
+                        {
+                            output += dag2.debugstring[i];
+                            output += System.Environment.NewLine;
+                        }*/
+                        break;
                 }
-                outputBox.Text = output;
-                string[] file = path.Split('\\');
-                PathField.Text = file[file.Length - 1];
-
-
             }
+            outputBox.Text = output;
+            string[] file = path.Split('\\');
+            PathField.Text = file[file.Length - 1];
+        }
+
+        private void YearChanger_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            fillPuzzleSelector();
         }
     }
 }
