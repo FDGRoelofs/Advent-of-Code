@@ -38,7 +38,7 @@ namespace Advent_of_Code
                 ltl = pivot;
             }
             bool bottomfound = false;
-            int hbl;
+            /*int hbl; code is nodig, maar nog niet afgemaakt. commmented om te builden voor een andere dag
             while(!bottomfound)
             {
                 if(lowestwin > 0)
@@ -46,7 +46,7 @@ namespace Advent_of_Code
                 else
                     pivot = 
                     
-            }
+            }*/
                 
             return 0;
         }
