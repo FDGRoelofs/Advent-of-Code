@@ -85,11 +85,16 @@ namespace Advent_of_Code
                     output += dag4.result2;
                     break;
                 case "Dag 5":
-                    path += "05.in";
-                    Dag dag5 = new Dag05(path);
+                    path += "05-6mb.in";
+                    Dag05 dag5 = new Dag05(path);
                     output += dag5.result1;
                     output += System.Environment.NewLine;
                     output += dag5.result2;
+                    for(int i = 0; i < dag5.debug.Length;i++)
+                    {
+                        output += dag5.debug[i];
+                        output += System.Environment.NewLine;
+                    }
                     break;
 
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Advent_of_Code
 {
@@ -14,10 +15,15 @@ namespace Advent_of_Code
         }
         Stack<char>[] stacks = new Stack<char>[9];
         List<(int,int,int)> instructions = new List<(int,int,int)>();
+        public string[] debug = new string[4];
         public override void Puzzel1()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             initialiseStacks();
+            long initStacksTime = stopwatch.ElapsedMilliseconds;
             initialiseInstructions();
+            long initInstructionsTime = stopwatch.ElapsedMilliseconds - initStacksTime;
             for(int i = 0; i < instructions.Count; i++)
             {
                 (int count, int from, int to) = instructions[i];
@@ -31,12 +37,19 @@ namespace Advent_of_Code
             {
                 answer += stacks[i].Peek();
             }
+            stopwatch.Stop();
+            long puzzel1time = stopwatch.ElapsedMilliseconds;
+            debug[0] = "initialise stacks = " + initStacksTime.ToString();
+            debug[1] = "initialise instructions = " + initInstructionsTime.ToString();
+            debug[2] = "solve time puzzel 1 = " + puzzel1time.ToString();
             this.result1 = answer;
         }
 
         public override void Puzzel2()
         {
             initialiseStacks();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             Stack<char> temp = new Stack<char>();
             for (int i = 0; i < instructions.Count; i++)
             {
@@ -55,6 +68,9 @@ namespace Advent_of_Code
             {
                 answer += stacks[x].Peek();
             }
+            stopwatch.Stop();
+            long puzzel2time = stopwatch.ElapsedMilliseconds;
+            debug[3] = "solve time puzzel 1 = " + puzzel2time.ToString();
             this.result2 = answer;
         }
 
@@ -64,14 +80,14 @@ namespace Advent_of_Code
             {
                 stacks[i] = new Stack<char>();
             }
-            for(int i = 1; i < 9; i++)
+            for(int currentline = 1; currentline < 100000; currentline++)
             {
                 int index = 1;
-                for(int j = 0; j < 9; j++)
+                for(int currentstack = 0; currentstack < 9; currentstack++)
                 {
-                    char next = lines[8 - i][index];
-                    if(!(next == ' '))
-                        stacks[j].Push(next);
+                    char next = lines[99999 - currentline][index];
+                    if (!(next == ' '))
+                        stacks[currentstack].Push(next);
                     index += 4;
                 }
             }
@@ -79,7 +95,7 @@ namespace Advent_of_Code
 
         public void initialiseInstructions()
         {
-            for(int i = 10; i < lines.Length; i++)
+            for(int i = 100001; i < lines.Length; i++)
             {
                 string[] fullStr = lines[i].Split(' ');
                 int count = int.Parse(fullStr[1]);
