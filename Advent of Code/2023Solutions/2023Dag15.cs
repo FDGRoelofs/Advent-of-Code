@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,10 +47,11 @@ namespace Advent_of_Code
         {
             string[] sequence = lines[0].Split(',');
             //Dictionary<string, int> inner = new Dictionary<string, int>();
-            Dictionary<int, LinkedHashMap<string,int>> Boxes = new Dictionary<int, LinkedHashMap<string, int>>();
+            Dictionary<int, OrderedDictionary> Boxes = new Dictionary<int, OrderedDictionary>();
+            
             
             for (int i = 0; i < 256; i++) // initialise boxes
-                Boxes.Add(i, new LinkedHashMap<string, int>());
+                Boxes.Add(i, new OrderedDictionary());
             foreach (string line in sequence)
             {
                 if(line[^1] == '-')
@@ -57,7 +59,7 @@ namespace Advent_of_Code
                     int end = line.Length - 1;
                     string prehash = line.Substring(0, end);
                     int box = cHash(prehash);
-                    if(Boxes[box].ContainsKey(prehash))
+                    if(Boxes[box].Contains(prehash))
                         Boxes[box].Remove(prehash);
                 }
                 else
@@ -65,9 +67,28 @@ namespace Advent_of_Code
                     string[] t = line.Split('=');
                     string prehash = t[0];
                     int flength = int.Parse(t[1]);
+                    int box = cHash(prehash);
+                    if (Boxes[box].Contains(prehash))
+                        Boxes[box][prehash] = flength;
+                    else
+                        Boxes[box].Add(prehash, flength);
                 }
-
             }
+            int finalanswer = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                if(Boxes[i].Count > 0)
+                {
+                    for (int b = 0; b < Boxes[i].Count; b++)
+                    {
+                        int focallength = i + 1;
+                        focallength *= (b + 1);
+                        focallength *= (int)Boxes[i][b];
+                        finalanswer += focallength;
+                    }
+                }
+            }
+            this.result2 = finalanswer.ToString();
         }
 
         /*public int handleDash(string line)

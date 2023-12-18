@@ -213,7 +213,7 @@ namespace Advent_of_Code
                         Dag2315 dag15 = new Dag2315(path);
                         output += dag15.result1;
                         output += System.Environment.NewLine;
-                        output += dag15.debugstring[0];
+                        output += dag15.result2;
                         break;
                 }
             }
